@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For My Babita 💕</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, #fff5f7, #ffe4e9, #ffd1dc, #ffc1e3);
+      font-family: 'Segoe UI', sans-serif;
+      color: #c2185b;
+      overflow: hidden;
+      position: relative;
+    }
+
+    body.activated {
+      background: linear-gradient(135deg, #ff9aa2, #fad0c4, #ffd1dc, #ffccd5);
+      transition: background 12s ease;
+    }
+
+    .hearts-bg, .hearts-layer, .petals-layer, .sparkles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .heart-bg {
+      position: absolute;
+      font-size: 2.4rem;
+      color: rgba(255, 182, 193, 0.38);
+      animation: gentleFloat 24s linear infinite;
+    }
+
+    @keyframes gentleFloat {
+      0%   { transform: translateY(110vh) translateX(-50vw) rotate(-15deg); opacity: 0.28; }
+      50%  { opacity: 0.68; }
+      100% { transform: translateY(-50vh) translateX(60vw) rotate(345deg); opacity: 0; }
+    }
+
+    .container {
+      position: relative;
+      z-index: 10;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .intro-screen {
+      opacity: 1;
+      transition: opacity 2.2s ease-out;
+    }
+
+    .intro-screen.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .intro {
+      font-family: 'Great Vibes', cursive;
+      font-size: 5.6rem;
+      line-height: 1.1;
+      margin-bottom: 70px;
+      color: #e91e63;
+      text-shadow: 0 0 30px rgba(255,255,255,0.9), 0 0 60px rgba(233,30,99,0.45);
+      opacity: 0;
+      animation: fadeInGlow 4s forwards 0.8s;
+    }
+
+    .intro span { font-size: 1.4em; }
+
+    .btn-wrapper {
+      opacity: 0;
+      animation: fadeInGlow 3.5s forwards 3.5s;
+    }
+
+    .btn {
+      padding: 22px 110px;
+      font-family: 'Dancing Script', cursive;
+      font-size: 3.2rem;
+      background: linear-gradient(45deg, #ff85c0, #ff4081);
+      color: white;
+      border: none;
+      border-radius: 80px;
+      cursor: pointer;
+      box-shadow: 0 20px 50px rgba(255,105,180,0.5);
+      transition: all 0.6s ease;
+    }
+
+    .btn::before { content: '💕 '; font-size: 3rem; }
+
+    .btn:hover {
+      transform: scale(1.12) translateY(-12px);
+      box-shadow: 0 30px 80px rgba(255,105,180,0.7);
+    }
+
+    .content-screen {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 2.5s ease-in;
+      pointer-events: none;
+    }
+
+    .content-screen.visible { opacity: 1; pointer-events: auto; }
+
+    .message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Dancing Script', cursive;
+      font-size: 3.9rem;
+      color: #c2185b;
+      text-shadow: 0 0 28px rgba(255,255,255,0.95);
+      opacity: 0;
+      pointer-events: none;
+      max-width: 92%;
+      line-height: 1.4;
+      transition: opacity 2.5s ease;
+    }
+
+    .final-reveal {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      opacity: 0;
+      transition: opacity 4s ease;
+      z-index: 15;
+    }
+
+    .final-reveal.show { opacity: 1; }
+
+    .photo-container {
+      width: 380px;
+      height: 380px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 18px solid rgba(255, 255, 255, 0.96);
+      box-shadow: 
+        0 0 80px rgba(255, 105, 180, 0.7),
+        inset 0 0 60px rgba(255, 255, 255, 0.85);
+      background: radial-gradient(circle at 30% 30%, rgba(255,182,193,0.45), transparent 70%);
+      position: relative;
+      animation: pulseGlow 6s infinite ease-in-out;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 80px rgba(255,105,180,0.7), inset 0 0 60px rgba(255,255,255,0.85); }
+      50%      { box-shadow: 0 0 120px rgba(255,105,180,1), inset 0 0 80px rgba(255,255,255,1); }
+    }
+
+    .photo-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+      background: rgba(255,255,255,0.08);
+      opacity: 0;
+      transform: scale(0.92);
+      transition: all 5.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .photo-container img.revealed {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .final-msg {
+      font-family: 'Great Vibes', cursive;
+      font-size: 4.2rem;
+      color: #d81b60;
+      text-shadow: 0 0 40px rgba(216,27,96,0.9), 0 0 80px rgba(233,30,99,0.6);
+      opacity: 0;
+      transform: translateY(60px) scale(0.9);
+      transition: all 4s ease 1.8s;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      letter-spacing: 1.5px;
+    }
+
+    .final-msg.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .final-heart {
+      font-size: 4.2rem;
+      animation: beatHeart 1.6s infinite ease-in-out;
+    }
+
+    @keyframes beatHeart {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.4); }
+    }
+
+    .valentine-note {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3rem;
+      color: #e91e63;
+      text-shadow: 0 0 30px rgba(233,30,99,0.7);
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 3.5s ease 3.2s;
+      margin-top: 20px;
+    }
+
+    .valentine-note.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Falling petals (rose-like) */
+    .petal {
+      position: absolute;
+      font-size: 2.8rem;
+      opacity: 0;
+      animation: fallPetal linear forwards;
+      pointer-events: none;
+      text-shadow: 0 0 12px rgba(255,105,180,0.6);
+    }
+
+    @keyframes fallPetal {
+      0%   { transform: translateY(-120vh) rotate(0deg); opacity: 0.7; }
+      15%  { opacity: 1; }
+      100% { transform: translateY(140vh) rotate(1440deg); opacity: 0; }
+    }
+
+    /* Sparkle/glitter particles */
+    .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 12px white, 0 0 20px #ff85c0;
+      opacity: 0;
+      animation: sparkleAnim 3s forwards;
+      pointer-events: none;
+    }
+
+    @keyframes sparkleAnim {
+      0%   { opacity: 0; transform: scale(0); }
+      30%  { opacity: 1; transform: scale(1.4); }
+      100% { opacity: 0; transform: scale(0.6) translateY(-80px); }
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 2.6rem;
+      opacity: 0;
+      animation: fall linear forwards;
+      text-shadow: 0 0 18px #ff408199;
+    }
+
+    @keyframes fall {
+      0%   { transform: translateY(-140vh) rotate(0deg); opacity: 0.9; }
+      10%  { opacity: 1; }
+      100% { transform: translateY(140vh) rotate(1800deg); opacity: 0; }
+    }
+
+    @keyframes fadeInGlow {
+      to { opacity: 1; text-shadow: 0 0 40px rgba(255,255,255,1), 0 0 80px rgba(233,30,99,0.65); }
+    }
+
+    @media (max-width: 520px) {
+      .intro { font-size: 4.2rem; }
+      .btn { font-size: 2.8rem; padding: 18px 80px; }
+      .message { font-size: 3.2rem; }
+      .photo-container { width: 300px; height: 300px; border-width: 14px; }
+      .final-msg { font-size: 3.4rem; }
+      .valentine-note { font-size: 2.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hearts-bg" id="heartsBg"></div>
+  <div class="hearts-layer" id="hearts"></div>
+  <div class="petals-layer" id="petals"></div>
+  <div class="sparkles" id="sparkles"></div>
+
+  <div class="container intro-screen" id="introScreen">
+    <div class="intro">Hi, Babita <span>👀🫶</span><br>I made something for you…</div>
+    <div class="btn-wrapper">
+      <button class="btn" id="start">Click Me</button>
+    </div>
+  </div>
+
+  <div class="content-screen" id="contentScreen">
+    <div class="final-reveal" id="finalReveal">
+      <div class="photo-container">
+        <img src="lovee.jpeg" alt="Babita 💕" id="lovePhoto">
+      </div>
+      <div id="final" class="final-msg">
+        <span class="final-heart">💖</span>
+        You're my favorite person ♡
+      </div>
+      <div id="valentineNote" class="valentine-note">
+        Happy Valentine's Day, dear :)
+      </div>
+    </div>
+  </div>
+
+  <audio id="bgMusic" loop preload="auto" volume="0.28">
+    <source src="ordinary.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    // Background gentle hearts
+    function createBgHeart() {
+      const h = document.createElement('div');
+      h.className = 'heart-bg';
+      h.innerHTML = '💗';
+      h.style.left = Math.random() * 100 + 'vw';
+      h.style.animationDuration = (18 + Math.random() * 14) + 's';
+      h.style.animationDelay = Math.random() * 8 + 's';
+      document.getElementById('heartsBg').appendChild(h);
+      setTimeout(() => h.remove(), 50000);
+    }
+    setInterval(createBgHeart, 1600);
+
+    const startBtn      = document.getElementById('start');
+    const introScreen   = document.getElementById('introScreen');
+    const contentScreen = document.getElementById('contentScreen');
+    const finalReveal   = document.getElementById('finalReveal');
+    const lovePhoto     = document.getElementById('lovePhoto');
+    const finalMsg      = document.getElementById('final');
+    const valentineNote = document.getElementById('valentineNote');
+    const heartsLayer   = document.getElementById('hearts');
+    const petalsLayer   = document.getElementById('petals');
+    const sparklesLayer = document.getElementById('sparkles');
+    const music         = document.getElementById('bgMusic');
+
+    const messages = [
+      "Every time I see your smile…",
+      "my heart forgets how to beat normally 🫶",
+      "You're the cutest reason I get distracted all day",
+      "I feel so lucky you're in my life",
+      "You make ordinary moments feel magical ✨",
+      "I like you… like a lot… like a lotttt 💗",
+      "Actually… More than like you…",
+      "I love the way you are… exactly as you are 💞"
+    ];
+
+    startBtn.addEventListener('click', () => {
+      introScreen.classList.add('fade-out');
+
+      setTimeout(() => {
+        introScreen.style.display = 'none';
+        document.body.classList.add('activated');
+        contentScreen.classList.add('visible');
+
+        setInterval(createHeart, 500);
+        setInterval(createPetal, 800);     // New: continuous soft petals
+        setInterval(createSparkle, 1200);  // New: occasional sparkles
+
+        let i = 0;
+        function showNext() {
+          if (i === 0) {
+            music.play().catch(e => console.log("Music:", e));
+          }
+
+          if (i >= messages.length) {
+            setTimeout(() => {
+              lovePhoto.classList.add('revealed');
+
+              // Intense burst
+              for (let j = 0; j < 100; j++) {
+                setTimeout(() => createHeart(true), j * 25 + Math.random() * 300);
+              }
+              for (let k = 0; k < 60; k++) {
+                setTimeout(() => createPetal(true), k * 40 + Math.random() * 500);
+              }
+              // Sparkle burst around photo
+              for (let s = 0; s < 30; s++) {
+                setTimeout(createSparkle, s * 80 + Math.random() * 600);
+              }
+
+              finalReveal.classList.add('show');
+              finalMsg.classList.add('show');
+              setTimeout(() => {
+                valentineNote.classList.add('show');
+              }, 2800);
+            }, 1800);
+            return;
+          }
+
+          const msg = document.createElement('div');
+          msg.className = 'message';
+          msg.textContent = messages[i];
+          document.body.appendChild(msg);
+
+          setTimeout(() => { msg.style.opacity = '1'; }, 300);
+
+          setTimeout(() => {
+            msg.style.opacity = '0';
+            setTimeout(() => msg.remove(), 2200);
+            i++;
+            setTimeout(showNext, 3200);
+          }, 3200);
+        }
+
+        setTimeout(showNext, 1200);
+      }, 1800);
+    });
+
+    // Regular falling hearts
+    function createHeart(intense = false) {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.innerHTML = ['💗','💖','🩷','💕','❤️','✨','💞','🫶','🌸'][Math.floor(Math.random()*9)];
+
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.top = '-15%';
+      heart.style.fontSize = (intense ? 2 + Math.random() * 5 : 1.2 + Math.random() * 2.2) + 'rem';
+      heart.style.animationDuration = (intense ? 3 + Math.random() * 2.5 : 9 + Math.random() * 10) + 's';
+      heart.style.animationDelay = Math.random() * 1.2 + 's';
+      heart.style.color = intense ? ['#ff69b4','#ff1493','#db7093','#ff85c0'][Math.floor(Math.random()*4)] : '#ff4081';
+
+      heartsLayer.appendChild(heart);
+      setTimeout(() => heart.remove(), intense ? 8000 : 18000);
+    }
+
+    // New: Falling rose petals
+    function createPetal(intense = false) {
+      const petal = document.createElement('div');
+      petal.className = 'petal';
+      petal.innerHTML = ['🌸','🌷','🌹','💮'][Math.floor(Math.random()*5)];
+
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.top = '-20%';
+      petal.style.fontSize = (intense ? 2.5 + Math.random() * 3.5 : 1.8 + Math.random() * 2) + 'rem';
+      petal.style.animationDuration = (intense ? 4 + Math.random() * 3 : 12 + Math.random() * 10) + 's';
+      petal.style.animationDelay = Math.random() * 2 + 's';
+      petal.style.color = intense ? ['#ff69b4','#ff3366','#c71585','#ff1493'][Math.floor(Math.random()*4)] : '#ff85c0';
+
+      petalsLayer.appendChild(petal);
+      setTimeout(() => petal.remove(), intense ? 10000 : 25000);
+    }
+
+    // New: Sparkle/glitter particles
+    function createSparkle() {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.left = Math.random() * 100 + 'vw';
+      sparkle.style.top = Math.random() * 100 + 'vh';
+      sparkle.style.animationDuration = (1.5 + Math.random() * 2.5) + 's';
+      sparkle.style.animationDelay = Math.random() * 1 + 's';
+
+      sparklesLayer.appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 5000);
+    }
+  </script>
+</body>
+</html>
