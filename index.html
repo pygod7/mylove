@@ -156,11 +156,47 @@
       height: clamp(260px, 75vw, 360px);
       border-radius: 50%;
       overflow: hidden;
-      border: clamp(12px, 4vw, 16px) solid rgba(255, 255, 255, 0.94);
-      box-shadow: 0 0 60px rgba(255,105,180,0.55), inset 0 0 45px rgba(255,255,255,0.75);
-      background: radial-gradient(circle at 30% 30%, rgba(255,182,193,0.35), transparent 70%);
       position: relative;
+      background: radial-gradient(circle at 30% 30%, rgba(255,182,193,0.35), transparent 70%);
+      box-shadow: 
+        0 0 60px rgba(255, 105, 180, 0.5),
+        inset 0 0 45px rgba(255, 255, 255, 0.6);
       animation: pulseGlow 8s infinite ease-in-out;
+    }
+
+    .photo-container::before {
+      content: '';
+      position: absolute;
+      inset: -18px;
+      border-radius: 50%;
+      border: 14px solid transparent;
+      background: linear-gradient(45deg, #ff9aa2, #ff85c0, #ff6b9d, #ff4081, #ff9aa2);
+      background-size: 300% 300%;
+      animation: gradientFlow 12s ease infinite;
+      z-index: -1;
+      pointer-events: none;
+      box-shadow: 0 0 40px rgba(255, 105, 180, 0.6);
+    }
+
+    .photo-container::after {
+      content: '💕 💗 🩷 💖';
+      position: absolute;
+      inset: -28px;
+      font-size: 1.1rem;
+      color: rgba(255, 105, 180, 0.7);
+      text-align: center;
+      letter-spacing: 12px;
+      opacity: 0.6;
+      pointer-events: none;
+      z-index: -1;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    @keyframes gradientFlow {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     @keyframes pulseGlow {
@@ -274,10 +310,9 @@
     }
 
     @media (max-width: 520px) {
-      .photo-container {
-        box-shadow: 0 0 50px rgba(255,105,180,0.5), inset 0 0 40px rgba(255,255,255,0.7);
-      }
-      .pulseGlow { animation-duration: 10s; }
+      .photo-container::before { inset: -14px; border-width: 10px; }
+      .photo-container::after { inset: -22px; font-size: 0.9rem; letter-spacing: 10px; }
+      .photo-container { box-shadow: 0 0 50px rgba(255,105,180,0.5), inset 0 0 40px rgba(255,255,255,0.7); }
     }
   </style>
 </head>
@@ -361,7 +396,6 @@
         document.body.classList.add('activated');
         contentScreen.classList.add('visible');
 
-        // Very gentle continuous rates on mobile
         setInterval(createHeart,   isMobile ? 1400 : 700);
         setInterval(createPetal,   isMobile ? 2200 : 1100);
         setInterval(createSparkle, isMobile ? 3000 : 1800);
@@ -380,7 +414,6 @@
               const petalBurst = isMobile ? 15 : 35;
               const sparkleBurst = isMobile ? 10 : 20;
 
-              // Gentle staggered heart burst
               let frame = 0;
               function burstHearts() {
                 if (frame < heartBurst) {
@@ -391,7 +424,6 @@
               }
               requestAnimationFrame(burstHearts);
 
-              // Petals & sparkles in small groups
               for (let k = 0; k < petalBurst; k++) {
                 setTimeout(() => createPetal(true), k * 80 + Math.random() * 800);
               }
