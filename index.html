@@ -37,15 +37,14 @@
 
     .heart-bg {
       position: absolute;
-      font-size: 2.2rem;
-      color: rgba(255, 182, 193, 0.38);
-      animation: gentleFloat 28s linear infinite;
-      will-change: transform, opacity;
+      font-size: 2.1rem;
+      color: rgba(255, 182, 193, 0.35);
+      animation: gentleFloat 30s linear infinite;
     }
 
     @keyframes gentleFloat {
       0%   { transform: translateY(110vh) translateX(-50vw) rotate(-15deg); opacity: 0.28; }
-      50%  { opacity: 0.68; }
+      50%  { opacity: 0.65; }
       100% { transform: translateY(-50vh) translateX(60vw) rotate(345deg); opacity: 0; }
     }
 
@@ -100,7 +99,6 @@
       cursor: pointer;
       box-shadow: 0 16px 40px rgba(255,105,180,0.5);
       transition: all 0.5s ease;
-      will-change: transform;
     }
 
     .btn::before { content: '💕 '; font-size: 2.6rem; }
@@ -159,17 +157,15 @@
       border-radius: 50%;
       overflow: hidden;
       border: clamp(12px, 4vw, 16px) solid rgba(255, 255, 255, 0.94);
-      box-shadow: 0 0 70px rgba(255,105,180,0.6), inset 0 0 50px rgba(255,255,255,0.8);
-      background: radial-gradient(circle at 30% 30%, rgba(255,182,193,0.4), transparent 70%);
+      box-shadow: 0 0 60px rgba(255,105,180,0.55), inset 0 0 45px rgba(255,255,255,0.75);
+      background: radial-gradient(circle at 30% 30%, rgba(255,182,193,0.35), transparent 70%);
       position: relative;
-      animation: pulseGlow 7s infinite ease-in-out;
-      will-change: box-shadow;
-      transform: translateZ(0);
+      animation: pulseGlow 8s infinite ease-in-out;
     }
 
     @keyframes pulseGlow {
-      0%, 100% { box-shadow: 0 0 70px rgba(255,105,180,0.6), inset 0 0 50px rgba(255,255,255,0.8); }
-      50%      { box-shadow: 0 0 110px rgba(255,105,180,0.95), inset 0 0 70px rgba(255,255,255,0.95); }
+      0%, 100% { box-shadow: 0 0 60px rgba(255,105,180,0.55), inset 0 0 45px rgba(255,255,255,0.75); }
+      50%      { box-shadow: 0 0 90px rgba(255,105,180,0.9), inset 0 0 60px rgba(255,255,255,0.9); }
     }
 
     .photo-container img {
@@ -182,7 +178,6 @@
       opacity: 0;
       transform: scale(0.94);
       transition: all 5s cubic-bezier(0.34, 1.5, 0.64, 1);
-      will-change: transform, opacity;
     }
 
     .photo-container img.revealed {
@@ -239,42 +234,39 @@
       position: absolute;
       opacity: 0;
       animation: fall linear forwards;
-      will-change: transform, opacity;
-      transform: translateZ(0);
     }
 
     .petal {
-      font-size: clamp(1.8rem, 5vw, 2.6rem);
-      text-shadow: 0 0 10px rgba(255,105,180,0.5);
+      font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+      text-shadow: 0 0 8px rgba(255,105,180,0.4);
     }
 
     .heart {
-      font-size: clamp(1.8rem, 5vw, 2.4rem);
-      text-shadow: 0 0 15px #ff408199;
+      font-size: clamp(1.6rem, 4.5vw, 2.3rem);
+      text-shadow: 0 0 12px #ff408199;
     }
 
     @keyframes fall {
-      0%   { transform: translateY(-130vh) rotate(0deg); opacity: 0.85; }
-      12%  { opacity: 1; }
-      100% { transform: translateY(130vh) rotate(1620deg); opacity: 0; }
+      0%   { transform: translateY(-120vh) rotate(0deg); opacity: 0.8; }
+      15%  { opacity: 1; }
+      100% { transform: translateY(120vh) rotate(1440deg); opacity: 0; }
     }
 
     .sparkle {
       position: absolute;
-      width: 5px;
-      height: 5px;
+      width: 4px;
+      height: 4px;
       background: white;
       border-radius: 50%;
-      box-shadow: 0 0 10px white, 0 0 16px #ff85c0;
+      box-shadow: 0 0 8px white, 0 0 14px #ff85c0;
       opacity: 0;
-      animation: sparkleAnim 2.8s forwards;
-      will-change: transform, opacity;
+      animation: sparkleAnim 2.6s forwards;
     }
 
     @keyframes sparkleAnim {
       0%   { opacity: 0; transform: scale(0); }
-      35%  { opacity: 0.9; transform: scale(1.3); }
-      100% { opacity: 0; transform: scale(0.5) translateY(-60px); }
+      40%  { opacity: 0.85; transform: scale(1.2); }
+      100% { opacity: 0; transform: scale(0.4) translateY(-50px); }
     }
 
     @keyframes fadeInGlow {
@@ -282,13 +274,10 @@
     }
 
     @media (max-width: 520px) {
-      .message { font-size: clamp(2.2rem, 8vw, 3rem); }
-      .photo-container { border-width: 10px; }
-      .final-msg { gap: 12px; }
-    }
-
-    @media (max-width: 380px) {
-      .btn { padding: 14px 60px; font-size: 2.2rem; }
+      .photo-container {
+        box-shadow: 0 0 50px rgba(255,105,180,0.5), inset 0 0 40px rgba(255,255,255,0.7);
+      }
+      .pulseGlow { animation-duration: 10s; }
     }
   </style>
 </head>
@@ -326,20 +315,18 @@
   </audio>
 
   <script>
-    // ────────────────────────────────────────────────
-    // Background gentle hearts (low frequency)
-    // ────────────────────────────────────────────────
+    // Background gentle hearts — very low frequency
     function createBgHeart() {
       const h = document.createElement('div');
       h.className = 'heart-bg';
       h.innerHTML = '💗';
       h.style.left = Math.random() * 100 + 'vw';
-      h.style.animationDuration = (20 + Math.random() * 16) + 's';
-      h.style.animationDelay = Math.random() * 10 + 's';
+      h.style.animationDuration = (22 + Math.random() * 18) + 's';
+      h.style.animationDelay = Math.random() * 12 + 's';
       document.getElementById('heartsBg').appendChild(h);
-      setTimeout(() => h.remove(), 60000);
+      setTimeout(() => h.remove(), 70000);
     }
-    setInterval(createBgHeart, 2200);
+    setInterval(createBgHeart, 2800);
 
     const isMobile = window.innerWidth <= 520 || 'ontouchstart' in window;
 
@@ -374,10 +361,10 @@
         document.body.classList.add('activated');
         contentScreen.classList.add('visible');
 
-        // Lower frequency on mobile
-        setInterval(createHeart, isMobile ? 900 : 500);
-        setInterval(createPetal, isMobile ? 1400 : 800);
-        setInterval(createSparkle, isMobile ? 2000 : 1200);
+        // Very gentle continuous rates on mobile
+        setInterval(createHeart,   isMobile ? 1400 : 700);
+        setInterval(createPetal,   isMobile ? 2200 : 1100);
+        setInterval(createSparkle, isMobile ? 3000 : 1800);
 
         let i = 0;
         function showNext() {
@@ -389,32 +376,33 @@
             setTimeout(() => {
               lovePhoto.classList.add('revealed');
 
-              const burstCount = isMobile ? 50 : 100;
-              const petalBurst  = isMobile ? 30 : 60;
+              const heartBurst = isMobile ? 25 : 60;
+              const petalBurst = isMobile ? 15 : 35;
+              const sparkleBurst = isMobile ? 10 : 20;
 
-              // Staggered burst using requestAnimationFrame
+              // Gentle staggered heart burst
               let frame = 0;
-              function burst() {
-                if (frame < burstCount) {
+              function burstHearts() {
+                if (frame < heartBurst) {
                   createHeart(true);
                   frame++;
-                  requestAnimationFrame(burst);
+                  requestAnimationFrame(burstHearts);
                 }
               }
-              requestAnimationFrame(burst);
+              requestAnimationFrame(burstHearts);
 
+              // Petals & sparkles in small groups
               for (let k = 0; k < petalBurst; k++) {
-                setTimeout(() => createPetal(true), k * 50 + Math.random() * 600);
+                setTimeout(() => createPetal(true), k * 80 + Math.random() * 800);
               }
-
-              for (let s = 0; s < (isMobile ? 15 : 30); s++) {
-                setTimeout(createSparkle, s * 100 + Math.random() * 700);
+              for (let s = 0; s < sparkleBurst; s++) {
+                setTimeout(createSparkle, s * 120 + Math.random() * 900);
               }
 
               finalReveal.classList.add('show');
               finalMsg.classList.add('show');
-              setTimeout(() => valentineNote.classList.add('show'), 2600);
-            }, 1600);
+              setTimeout(() => valentineNote.classList.add('show'), 2800);
+            }, 1800);
             return;
           }
 
@@ -437,65 +425,54 @@
       }, 1600);
     });
 
-    // ────────────────────────────────────────────────
-    // Falling hearts – fixed random index
-    // ────────────────────────────────────────────────
     const heartEmojis = ['💗','💖','🩷','💕','❤️','✨','💞','🫶','🌸'];
     function createHeart(intense = false) {
       const heart = document.createElement('div');
       heart.className = 'heart';
-      const idx = Math.floor(Math.random() * heartEmojis.length);
-      heart.innerHTML = heartEmojis[idx];
+      heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
 
       heart.style.left = Math.random() * 100 + 'vw';
       heart.style.top = '-15%';
-      heart.style.fontSize = (intense ? 2.2 + Math.random() * 4 : 1.4 + Math.random() * 2) + 'rem';
-      heart.style.animationDuration = (intense ? 3.2 + Math.random() * 2.8 : 10 + Math.random() * 9) + 's';
-      heart.style.animationDelay = Math.random() * 1.5 + 's';
+      heart.style.fontSize = (intense ? 2 + Math.random() * 3.5 : 1.3 + Math.random() * 1.8) + 'rem';
+      heart.style.animationDuration = (intense ? 3.5 + Math.random() * 3 : 11 + Math.random() * 10) + 's';
+      heart.style.animationDelay = Math.random() * 2 + 's';
       heart.style.color = intense
         ? ['#ff69b4','#ff1493','#db7093','#ff85c0'][Math.floor(Math.random()*4)]
         : '#ff4081';
 
-      heartsLayer.appendChild(heart);
-      setTimeout(() => heart.remove(), intense ? 9000 : 20000);
+      document.getElementById('hearts').appendChild(heart);
+      setTimeout(() => heart.remove(), intense ? 10000 : 22000);
     }
 
-    // ────────────────────────────────────────────────
-    // Falling petals – fixed random index
-    // ────────────────────────────────────────────────
     const petalEmojis = ['🌸','🌷','🌹','💮'];
     function createPetal(intense = false) {
       const petal = document.createElement('div');
       petal.className = 'petal';
-      const idx = Math.floor(Math.random() * petalEmojis.length);
-      petal.innerHTML = petalEmojis[idx];
+      petal.innerHTML = petalEmojis[Math.floor(Math.random() * petalEmojis.length)];
 
       petal.style.left = Math.random() * 100 + 'vw';
       petal.style.top = '-20%';
-      petal.style.fontSize = (intense ? 2.4 + Math.random() * 3 : 1.6 + Math.random() * 1.8) + 'rem';
-      petal.style.animationDuration = (intense ? 4.5 + Math.random() * 3.5 : 13 + Math.random() * 11) + 's';
-      petal.style.animationDelay = Math.random() * 2.5 + 's';
+      petal.style.fontSize = (intense ? 2.2 + Math.random() * 2.8 : 1.5 + Math.random() * 1.6) + 'rem';
+      petal.style.animationDuration = (intense ? 5 + Math.random() * 4 : 14 + Math.random() * 12) + 's';
+      petal.style.animationDelay = Math.random() * 3 + 's';
       petal.style.color = intense
         ? ['#ff69b4','#ff3366','#c71585','#ff1493'][Math.floor(Math.random()*4)]
         : '#ff85c0';
 
-      petalsLayer.appendChild(petal);
-      setTimeout(() => petal.remove(), intense ? 11000 : 28000);
+      document.getElementById('petals').appendChild(petal);
+      setTimeout(() => petal.remove(), intense ? 12000 : 30000);
     }
 
-    // ────────────────────────────────────────────────
-    // Sparkles
-    // ────────────────────────────────────────────────
     function createSparkle() {
       const sparkle = document.createElement('div');
       sparkle.className = 'sparkle';
       sparkle.style.left = Math.random() * 100 + 'vw';
       sparkle.style.top  = Math.random() * 100 + 'vh';
-      sparkle.style.animationDuration = (1.4 + Math.random() * 2.2) + 's';
-      sparkle.style.animationDelay = Math.random() * 1.2 + 's';
+      sparkle.style.animationDuration = (1.6 + Math.random() * 2) + 's';
+      sparkle.style.animationDelay = Math.random() * 1.5 + 's';
 
-      sparklesLayer.appendChild(sparkle);
-      setTimeout(() => sparkle.remove(), 4500);
+      document.getElementById('sparkles').appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 4000);
     }
   </script>
 </body>
